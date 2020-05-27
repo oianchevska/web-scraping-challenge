@@ -8,7 +8,10 @@ def init_browser():
     executable_path = {'executable_path': '../chromedriver'}
     return Browser('chrome', **executable_path, headless=False)
 
+
 def scrape():
+    mars_info={}
+
     browser=init_browser()
     #NASA Mars News
     url = 'https://mars.nasa.gov/news/'
@@ -18,7 +21,9 @@ def scrape():
     soup = bs(html, "html.parser")
     news_title = soup.find_all(attrs={'class': 'content_title'})[1].get_text()
     news_p = soup.find_all(attrs={'class': 'article_teaser_body'})[0].get_text()
-    print(news_title)
+    mars_info['news_title']=news_title
+    mars_info['news_text']=news_p
+
     #JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(featured_image_url)
@@ -29,7 +34,8 @@ def scrape():
     mars_image = soup.find_all(attrs={'class': 'fancybox-image'})[0]
     url_image = mars_image.get('src')
     featured_image_url = 'https://www.jpl.nasa.gov/' + url_image
-    print(featured_image_url)
+    mars_info['mars_url'] = featured_image_url
+
     #Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
@@ -38,13 +44,16 @@ def scrape():
     soup = bs(html, "html.parser")
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
     mars_weather = twitter_news.find(attrs={'lang': 'en'}).get_text()
-    print(mars_weather)
+    mars_info['mars_weather'] = mars_weather
 
     #Mars Facts
     mars_url = 'https://space-facts.com/mars/'
     mars_table = pd.read_html(mars_url)[0]
-    mars_table = mars_table.rename(columns={0: ' ', 1: ' '})
-    print(mars_table)
+    mars_table = mars_table.rename(columns={0: 'Mars', 1: 'Data'})
+    mars_table = mars_table.set_index('Mars')
+    mars_data = mars_table.to_html(classes='mars_data')
+    mars_data = mars_data.replace('\n', ' ')
+    mars_info['mars_facts'] = mars_data
 
     #Mars Hemispheres
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -65,11 +74,12 @@ def scrape():
         hemisphere_image_urls.append(dict_info)
 
         browser.back()
+    mars_info['mars_images_titles'] = hemisphere_image_urls
 
-    print(hemisphere_image_urls)
 
     browser.quit()
+    return mars_info
 
 
-# if __name__=="__main__":
-scrape()
+if __name__=="__main__":
+    scrape()
