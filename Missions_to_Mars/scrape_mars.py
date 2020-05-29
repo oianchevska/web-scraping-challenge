@@ -52,7 +52,7 @@ def scrape():
     mars_table = mars_table.rename(columns={0: 'Mars', 1: 'Data'})
     mars_table = mars_table.set_index('Mars')
     mars_data = mars_table.to_html(classes='mars_data')
-    mars_data = mars_data.replace('\n', ' ')
+    #mars_data = mars_data.replace('\n', ' ')
     mars_info['mars_facts'] = mars_data
 
     #Mars Hemispheres
@@ -69,8 +69,8 @@ def scrape():
         html = browser.html
         soup = bs(html, "html.parser")
         image_info = soup.find_all(attrs={'class': 'wide-image'})[0].get('src')
-        titile_info = soup.find_all("h2", attrs={'class': 'title'})[0].get_text()
-        dict_info = {"title": titile_info, "img_url": image_info}
+        title_info = soup.find_all("h2", attrs={'class': 'title'})[0].get_text()
+        dict_info = {"title": title_info, "img_url": 'https://astrogeology.usgs.gov' + image_info}
         hemisphere_image_urls.append(dict_info)
 
         browser.back()
