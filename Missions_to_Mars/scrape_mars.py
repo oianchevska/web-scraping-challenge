@@ -49,7 +49,7 @@ def scrape():
     #Mars Facts
     mars_url = 'https://space-facts.com/mars/'
     mars_table = pd.read_html(mars_url)[0]
-    mars_table = mars_table.rename(columns={0: 'Mars', 1: 'Data'})
+    mars_table = mars_table.rename(columns={0: 'Mars', 1: 'Value'})
     mars_table = mars_table.set_index('Mars')
     mars_data = mars_table.to_html(classes='mars_data')
     #mars_data = mars_data.replace('\n', ' ')

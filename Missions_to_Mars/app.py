@@ -26,3 +26,7 @@ def scrape():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    #mars_mission = mongo.db.collection.find_one()
+    #d=mars_mission.mars_facts
+    #d=mars_mission["mars_facts"]
+    #print(mars_mission)
