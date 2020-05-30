@@ -29,7 +29,7 @@ def scrape():
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(featured_image_url)
     browser.find_by_css('a#full_image.button.fancybox').first.click()
-    time.sleep(1)
+    time.sleep(2)
     html = browser.html
     soup = bs(html, "html.parser")
     mars_image = soup.find_all(attrs={'class': 'fancybox-image'})[0]
@@ -41,7 +41,7 @@ def scrape():
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
-    time.sleep(1)
+    time.sleep(2)
     html = browser.html
     soup = bs(html, "html.parser")
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
@@ -65,7 +65,7 @@ def scrape():
     for i in range(len(browser.find_by_css('img.thumb'))):
         img_page = browser.find_by_css('img.thumb')
         img_page[i].click()
-        time.sleep(5)
+        time.sleep(2)
         html = browser.html
         soup = bs(html, "html.parser")
         image_info = soup.find_all(attrs={'class': 'wide-image'})[0].get('src')
