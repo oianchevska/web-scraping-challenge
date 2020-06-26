@@ -66,7 +66,8 @@ def scrape():
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
-    time.sleep(10)
+    browser.reload()
+    time.sleep(5)
     html = browser.html
     print(html)
     soup = bs(html, "html.parser")
