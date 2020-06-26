@@ -31,7 +31,7 @@ def scrape():
 
     # NASA Mars News
     url = 'https://mars.nasa.gov/news/'
-    browser.visit(url)
+    browser.get(url)
     time.sleep(2)
     html = browser.html
     soup = bs(html, "html.parser")
@@ -43,7 +43,7 @@ def scrape():
 
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
-    browser.visit(featured_image_url)
+    browser.get(featured_image_url)
     browser.find_by_css('a#full_image.button.fancybox').first.click()
     time.sleep(2)
     html = browser.html
@@ -56,7 +56,7 @@ def scrape():
 
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
-    browser.visit(twitter_url)
+    browser.get(twitter_url)
     time.sleep(2)
     html = browser.html
     soup = bs(html, "html.parser")
@@ -76,7 +76,7 @@ def scrape():
 
     # Mars Hemispheres
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
-    browser.visit(hem_url)
+    browser.get(hem_url)
     hemisphere_image_urls = []
     for i in range(len(browser.find_by_css('img.thumb'))):
         img_page = browser.find_by_css('img.thumb')
