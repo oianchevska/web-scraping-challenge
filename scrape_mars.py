@@ -10,7 +10,7 @@ def init_browser():
     # return Browser('chrome', **executable_path, headless=False)
     # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google-chrome-stable'
     CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-
+    # CHROMEDRIVER_PATH='./Missions_to_Mars/chromedriver'
     # chrome_options = webdriver.ChromeOptions()
     #
     # chrome_options.binary_location = GOOGLE_CHROME_PATH
@@ -59,7 +59,7 @@ def scrape():
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
-    time.sleep(2)
+    time.sleep(10)
     html = browser.html
     soup = bs(html, "html.parser")
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
