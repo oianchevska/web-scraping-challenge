@@ -5,11 +5,13 @@ import time
 
 
 def init_browser():
-    executable_path = {'executable_path': './chromedriver'}
+    executable_path = {'executable_path': 'chromedriver'}
+    print(executable_path)
     return Browser('chrome', **executable_path, headless=False)
 
 
 def scrape():
+    print("Start scrape")
     mars_info = {}
     browser = init_browser()
 

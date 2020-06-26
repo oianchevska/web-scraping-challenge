@@ -18,8 +18,9 @@ def index():
 
 @app.route("/scrape")
 def scrape():
-    print("test")
+    print("/scrape")
     mars_data_app = scrape_mars.scrape()
+    print(mars_data_app)
     # Update the Mongo database using update and upsert=True
     mongo.db.collection.update({}, mars_data_app, upsert=True)
     # Redirect back to home page
