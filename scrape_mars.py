@@ -44,7 +44,7 @@ def scrape():
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.get(featured_image_url)
-    browser.find_element_by_css_selector('a#full_image.button.fancybox').first.click()
+    browser.find_element_by_css_selector('a#full_image.button.fancybox').click()
     time.sleep(2)
     html = browser.page_source
     soup = bs(html, "html.parser")
