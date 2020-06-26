@@ -9,7 +9,7 @@ def init_browser():
     # executable_path = {'executable_path': '/app/chromedriver'}
     # print(executable_path)
     # return Browser('chrome', **executable_path, headless=False)
-    CHROMEDRIVER_PATH = "/app/chromedriver"
+    CHROMEDRIVER_PATH = "chromedriver"
 
     chrome_options = webdriver.ChromeOptions()
 
