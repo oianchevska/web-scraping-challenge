@@ -32,7 +32,7 @@ def scrape():
     # NASA Mars News
     url = 'https://mars.nasa.gov/news/'
     browser.get(url)
-    time.sleep(2)
+    time.sleep(5)
     html = browser.page_source
     soup = bs(html, "html.parser")
     news_title = soup.find_all(attrs={'class': 'content_title'})[1].get_text()
@@ -40,12 +40,14 @@ def scrape():
 
     mars_info['news_title'] = news_title
     mars_info['news_text'] = news_p
+    print("NASA Mars News")
+    print(mars_info)
 
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.get(featured_image_url)
     browser.find_element_by_css_selector('a#full_image.button.fancybox').click()
-    time.sleep(2)
+    time.sleep(5)
     html = browser.page_source
     soup = bs(html, "html.parser")
     mars_image = soup.find_all(attrs={'class': 'fancybox-image'})[0]
@@ -53,17 +55,21 @@ def scrape():
     featured_image_url = 'https://www.jpl.nasa.gov/' + url_image
 
     mars_info['mars_url'] = featured_image_url
+    print("JPL Mars Space Images - Featured Image")
+    print(mars_info)
 
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.get(twitter_url)
-    time.sleep(2)
+    time.sleep(5)
     html = browser.page_source
     soup = bs(html, "html.parser")
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
     mars_weather = twitter_news.find(attrs={'lang': 'en'}).get_text()
 
     mars_info['mars_weather'] = mars_weather
+    print("Mars Weather")
+    print(mars_info)
 
     # Mars Facts
     mars_url = 'https://space-facts.com/mars/'
@@ -73,6 +79,8 @@ def scrape():
     mars_data = mars_table.to_html(classes='mars_data', justify='left')
 
     mars_info['mars_facts'] = mars_data
+    print("Mars Facts")
+    print(mars_info)
 
     # Mars Hemispheres
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -81,7 +89,7 @@ def scrape():
     for i in range(len(browser.find_element_by_class_name('img.thumb'))):
         img_page = browser.find_element_by_class_name('img.thumb')
         img_page[i].click()
-        time.sleep(2)
+        time.sleep(5)
         html = browser.page_source
         soup = bs(html, "html.parser")
         image_info = soup.find_all(attrs={'class': 'wide-image'})[0].get('src')
@@ -91,6 +99,8 @@ def scrape():
         browser.execute_script("window.history.go(-1)")
 
     mars_info['mars_images_titles'] = hemisphere_image_urls
+    print("Mars Hemispheres")
+    print(mars_info)
 
     browser.quit()
     return mars_info
