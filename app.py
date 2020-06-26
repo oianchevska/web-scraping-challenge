@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 uri=os.environ["MONGODB_URI"]
 
-mongo = PyMongo(app, uri=uri)
+mongo = PyMongo(app, uri=uri, retryWrites=False)
 
 
 @app.route("/")
