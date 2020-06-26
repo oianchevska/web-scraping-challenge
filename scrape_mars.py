@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup as bs
-from selenium.webdriver.chrome import webdriver
+from selenium import webdriver
 from splinter import Browser
 import pandas as pd
 import time
