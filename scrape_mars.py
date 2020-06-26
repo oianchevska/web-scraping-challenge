@@ -78,8 +78,8 @@ def scrape():
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.get(hem_url)
     hemisphere_image_urls = []
-    for i in range(len(browser.find_element_by_css_selector('img.thumb'))):
-        img_page = browser.find_element_by_css_selector('img.thumb')
+    for i in range(len(browser.find_element_by_class_name('img.thumb'))):
+        img_page = browser.find_element_by_class_name('img.thumb')
         img_page[i].click()
         time.sleep(2)
         html = browser.page_source
