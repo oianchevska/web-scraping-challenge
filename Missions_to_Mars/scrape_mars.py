@@ -5,7 +5,7 @@ import time
 
 
 def init_browser():
-    executable_path = {'executable_path': '../chromedriver'}
+    executable_path = {'executable_path': '../chromedriver1'}
     return Browser('chrome', **executable_path, headless=False)
 
 
