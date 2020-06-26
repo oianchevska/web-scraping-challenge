@@ -29,6 +29,7 @@ def init_browser():
 
 def scrape():
     mars_info = {}
+
     browser = init_browser()
 
     # NASA Mars News
@@ -43,7 +44,9 @@ def scrape():
     mars_info['news_title'] = news_title
     mars_info['news_text'] = news_p
     print(mars_info)
+    browser.quit()
 
+    browser = init_browser()
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(featured_image_url)
@@ -57,7 +60,9 @@ def scrape():
 
     mars_info['mars_url'] = featured_image_url
     print(mars_info)
+    browser.quit()
 
+    browser = init_browser()
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
@@ -71,7 +76,9 @@ def scrape():
 
     mars_info['mars_weather'] = mars_weather
     print(mars_info)
+    browser.quit()
 
+    browser = init_browser()
     # Mars Facts
     mars_url = 'https://space-facts.com/mars/'
     mars_table = pd.read_html(mars_url)[0]
@@ -81,7 +88,9 @@ def scrape():
 
     mars_info['mars_facts'] = mars_data
     print(mars_info)
+    browser.quit()
 
+    browser = init_browser()
     # Mars Hemispheres
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(hem_url)
