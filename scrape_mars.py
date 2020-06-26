@@ -44,7 +44,7 @@ def scrape():
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.get(featured_image_url)
-    browser.find_by_css('a#full_image.button.fancybox').first.click()
+    browser.find_element_by_css_selector('a#full_image.button.fancybox').first.click()
     time.sleep(2)
     html = browser.page_source
     soup = bs(html, "html.parser")
@@ -78,8 +78,8 @@ def scrape():
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.get(hem_url)
     hemisphere_image_urls = []
-    for i in range(len(browser.find_by_css('img.thumb'))):
-        img_page = browser.find_by_css('img.thumb')
+    for i in range(len(browser.find_element_by_css_selector('img.thumb'))):
+        img_page = browser.find_element_by_css_selector('img.thumb')
         img_page[i].click()
         time.sleep(2)
         html = browser.page_source
@@ -88,7 +88,7 @@ def scrape():
         title_info = soup.find_all("h2", attrs={'class': 'title'})[0].get_text()
         dict_info = {"title": title_info, "img_url": 'https://astrogeology.usgs.gov' + image_info}
         hemisphere_image_urls.append(dict_info)
-        browser.back()
+        browser.execute_script("window.history.go(-1)")
 
     mars_info['mars_images_titles'] = hemisphere_image_urls
 
