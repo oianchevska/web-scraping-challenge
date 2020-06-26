@@ -42,6 +42,7 @@ def scrape():
 
     mars_info['news_title'] = news_title
     mars_info['news_text'] = news_p
+    print(mars_info)
 
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -55,17 +56,21 @@ def scrape():
     featured_image_url = 'https://www.jpl.nasa.gov/' + url_image
 
     mars_info['mars_url'] = featured_image_url
+    print(mars_info)
 
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
     time.sleep(10)
     html = browser.html
+    print(html)
     soup = bs(html, "html.parser")
+    print(soup)
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
     mars_weather = twitter_news.find(attrs={'lang': 'en'}).get_text()
 
     mars_info['mars_weather'] = mars_weather
+    print(mars_info)
 
     # Mars Facts
     mars_url = 'https://space-facts.com/mars/'
@@ -75,6 +80,7 @@ def scrape():
     mars_data = mars_table.to_html(classes='mars_data', justify='left')
 
     mars_info['mars_facts'] = mars_data
+    print(mars_info)
 
     # Mars Hemispheres
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -93,6 +99,7 @@ def scrape():
         browser.back()
 
     mars_info['mars_images_titles'] = hemisphere_image_urls
+    print(mars_info)
 
     browser.quit()
     return mars_info
