@@ -63,8 +63,9 @@ def scrape():
     browser.get(twitter_url)
     time.sleep(5)
     html = browser.page_source
+    print(html)
     soup = bs(html, "html.parser")
-    twitter_news = soup.find_all(attrs={'role': 'article'})
+    twitter_news = soup.find_all(attrs={'role': 'article'})[0]
     mars_weather = twitter_news.find(attrs={'lang': 'en'}).get_text()
 
     mars_info['mars_weather'] = mars_weather
