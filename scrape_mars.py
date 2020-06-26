@@ -33,7 +33,7 @@ def scrape():
     url = 'https://mars.nasa.gov/news/'
     browser.get(url)
     time.sleep(2)
-    html = browser.html
+    html = browser.page_source
     soup = bs(html, "html.parser")
     news_title = soup.find_all(attrs={'class': 'content_title'})[1].get_text()
     news_p = soup.find_all(attrs={'class': 'article_teaser_body'})[0].get_text()
@@ -46,7 +46,7 @@ def scrape():
     browser.get(featured_image_url)
     browser.find_by_css('a#full_image.button.fancybox').first.click()
     time.sleep(2)
-    html = browser.html
+    html = browser.page_source
     soup = bs(html, "html.parser")
     mars_image = soup.find_all(attrs={'class': 'fancybox-image'})[0]
     url_image = mars_image.get('src')
@@ -58,7 +58,7 @@ def scrape():
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.get(twitter_url)
     time.sleep(2)
-    html = browser.html
+    html = browser.page_source
     soup = bs(html, "html.parser")
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
     mars_weather = twitter_news.find(attrs={'lang': 'en'}).get_text()
@@ -82,7 +82,7 @@ def scrape():
         img_page = browser.find_by_css('img.thumb')
         img_page[i].click()
         time.sleep(2)
-        html = browser.html
+        html = browser.page_source
         soup = bs(html, "html.parser")
         image_info = soup.find_all(attrs={'class': 'wide-image'})[0].get('src')
         title_info = soup.find_all("h2", attrs={'class': 'title'})[0].get_text()
