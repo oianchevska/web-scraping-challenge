@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup as bs
-from selenium import webdriver
 from splinter import Browser
 import pandas as pd
 import time
@@ -9,68 +8,64 @@ def init_browser():
     # executable_path = {'executable_path': '/app/chromedriver1'}
     # print(executable_path)
     # return Browser('chrome', **executable_path, headless=False)
-    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google-chrome-stable'
+    # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google-chrome-stable'
     CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
-    chrome_options = webdriver.ChromeOptions()
+    # chrome_options = webdriver.ChromeOptions()
+    #
+    # chrome_options.binary_location = GOOGLE_CHROME_PATH
+    # chrome_options.add_argument('--disable-gpu')
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('headless')
+    #
+    # browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
-    chrome_options.binary_location = GOOGLE_CHROME_PATH
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('headless')
+    executable_path = {'executable_path': CHROMEDRIVER_PATH}
 
-    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+    browser = Browser('chrome', **executable_path, headless=False)
     print('browser is ready')
     return browser
 
 
 def scrape():
-    print("Start scrape")
     mars_info = {}
     browser = init_browser()
 
     # NASA Mars News
     url = 'https://mars.nasa.gov/news/'
-    browser.get(url)
-    time.sleep(5)
-    html = browser.page_source
+    browser.visit(url)
+    time.sleep(2)
+    html = browser.html
     soup = bs(html, "html.parser")
     news_title = soup.find_all(attrs={'class': 'content_title'})[1].get_text()
     news_p = soup.find_all(attrs={'class': 'article_teaser_body'})[0].get_text()
 
     mars_info['news_title'] = news_title
     mars_info['news_text'] = news_p
-    print("NASA Mars News")
-    print(mars_info)
 
     # JPL Mars Space Images - Featured Image
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
-    browser.get(featured_image_url)
-    browser.find_element_by_css_selector('a#full_image.button.fancybox').click()
-    time.sleep(5)
-    html = browser.page_source
+    browser.visit(featured_image_url)
+    browser.find_by_css('a#full_image.button.fancybox').first.click()
+    time.sleep(2)
+    html = browser.html
     soup = bs(html, "html.parser")
     mars_image = soup.find_all(attrs={'class': 'fancybox-image'})[0]
     url_image = mars_image.get('src')
     featured_image_url = 'https://www.jpl.nasa.gov/' + url_image
 
     mars_info['mars_url'] = featured_image_url
-    print("JPL Mars Space Images - Featured Image")
-    print(mars_info)
 
     # Mars Weather
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
-    browser.get(twitter_url)
-    time.sleep(5)
-    html = browser.page_source
-    print(html)
+    browser.visit(twitter_url)
+    time.sleep(2)
+    html = browser.html
     soup = bs(html, "html.parser")
     twitter_news = soup.find_all(attrs={'role': 'article'})[0]
     mars_weather = twitter_news.find(attrs={'lang': 'en'}).get_text()
 
     mars_info['mars_weather'] = mars_weather
-    print("Mars Weather")
-    print(mars_info)
 
     # Mars Facts
     mars_url = 'https://space-facts.com/mars/'
@@ -80,28 +75,24 @@ def scrape():
     mars_data = mars_table.to_html(classes='mars_data', justify='left')
 
     mars_info['mars_facts'] = mars_data
-    print("Mars Facts")
-    print(mars_info)
 
     # Mars Hemispheres
     hem_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
-    browser.get(hem_url)
+    browser.visit(hem_url)
     hemisphere_image_urls = []
-    for i in range(len(browser.find_element_by_class_name('img.thumb'))):
-        img_page = browser.find_element_by_class_name('img.thumb')
+    for i in range(len(browser.find_by_css('img.thumb'))):
+        img_page = browser.find_by_css('img.thumb')
         img_page[i].click()
-        time.sleep(5)
-        html = browser.page_source
+        time.sleep(2)
+        html = browser.html
         soup = bs(html, "html.parser")
         image_info = soup.find_all(attrs={'class': 'wide-image'})[0].get('src')
         title_info = soup.find_all("h2", attrs={'class': 'title'})[0].get_text()
         dict_info = {"title": title_info, "img_url": 'https://astrogeology.usgs.gov' + image_info}
         hemisphere_image_urls.append(dict_info)
-        browser.execute_script("window.history.go(-1)")
+        browser.back()
 
     mars_info['mars_images_titles'] = hemisphere_image_urls
-    print("Mars Hemispheres")
-    print(mars_info)
 
     browser.quit()
     return mars_info
