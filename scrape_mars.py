@@ -5,7 +5,7 @@ import time
 
 
 def init_browser():
-    CHROMEDRIVER_PATH='./Missions_to_Mars/chromedriver'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
     executable_path = {'executable_path': CHROMEDRIVER_PATH}
     browser = Browser('chrome', **executable_path, headless=False)
     print('browser is ready')
@@ -44,6 +44,7 @@ def scrape():
     mars_info['mars_weather'] = "InSight sol 561 low -89.7ºC (-129.5ºF) high -2.9ºC (26.8ºF)\nwinds from the W at 5.7 m/s (12.8 mph) gusting to 17.8 m/s (39.8 mph)\npressure at 7.60 hPa"
     print(mars_info)
 
+
     # Mars Facts
     mars_url = 'https://space-facts.com/mars/'
     mars_table = pd.read_html(mars_url)[0]
@@ -73,6 +74,7 @@ def scrape():
     print(mars_info)
 
     browser.quit()
+
     return mars_info
 
 
