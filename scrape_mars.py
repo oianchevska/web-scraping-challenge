@@ -9,11 +9,12 @@ def init_browser():
     # executable_path = {'executable_path': '/app/chromedriver1'}
     # print(executable_path)
     # return Browser('chrome', **executable_path, headless=False)
-    CHROMEDRIVER_PATH = "./chromedriver"
+    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google-chrome-stable'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
     chrome_options = webdriver.ChromeOptions()
 
-    chrome_options.binary_location = '.apt/usr/bin/google-chrome-stable'
+    chrome_options.binary_location = GOOGLE_CHROME_PATH
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('headless')
