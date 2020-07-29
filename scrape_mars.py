@@ -2,10 +2,11 @@ from bs4 import BeautifulSoup as bs
 from splinter import Browser
 import pandas as pd
 import time
+import os
 
 
 def init_browser():
-    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    CHROMEDRIVER_PATH = os.environ["CHROMEDRIVER_PATH"]
     executable_path = {'executable_path': CHROMEDRIVER_PATH}
     browser = Browser('chrome', **executable_path, headless=False)
     print('browser is ready')
