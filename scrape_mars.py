@@ -20,7 +20,7 @@ def scrape():
     # NASA Mars News
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
-    time.sleep(2)
+    time.sleep(3)
     html = browser.html
     soup = bs(html, "html.parser")
     news_title = soup.find_all(attrs={'class': 'content_title'})[1].get_text()
@@ -33,7 +33,7 @@ def scrape():
     featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(featured_image_url)
     browser.find_by_css('a#full_image.button.fancybox').first.click()
-    time.sleep(2)
+    time.sleep(3)
     html = browser.html
     soup = bs(html, "html.parser")
     mars_image = soup.find_all(attrs={'class': 'fancybox-image'})[0]
@@ -62,7 +62,7 @@ def scrape():
     for i in range(len(browser.find_by_css('img.thumb'))):
         img_page = browser.find_by_css('img.thumb')
         img_page[i].click()
-        time.sleep(2)
+        time.sleep(3)
         html = browser.html
         soup = bs(html, "html.parser")
         image_info = soup.find_all(attrs={'class': 'wide-image'})[0].get('src')
@@ -73,6 +73,7 @@ def scrape():
 
     mars_info['mars_images_titles'] = hemisphere_image_urls
     print(mars_info)
+    print("Done")
 
     browser.quit()
 
